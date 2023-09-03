@@ -3,22 +3,19 @@ using System.Data.SqlClient;
 
 namespace ConnectToSqlApp.Services
 {
-    public class ProductService
+    public class ProductService : IProductService
     {
-        private static string db_source = "sagaraz204dbserv.database.windows.net";
-        private static string db_user = "sqladmin";
-        private static string db_password = "sql@admin1";
-        private static string db_database = "SagarAz204DB";
+
+        private readonly IConfiguration configuration;
+        public ProductService(IConfiguration _configuration)
+        {
+            configuration = _configuration;
+        }
 
         private SqlConnection GetConnection()
         {
 
-            var _builder = new SqlConnectionStringBuilder();
-            _builder.DataSource = db_source;
-            _builder.UserID = db_user;
-            _builder.Password = db_password;
-            _builder.InitialCatalog = db_database;
-            return new SqlConnection(_builder.ConnectionString);
+            return new SqlConnection(configuration.GetConnectionString("SQLConnection"));
         }
         public List<Product> GetProducts()
         {

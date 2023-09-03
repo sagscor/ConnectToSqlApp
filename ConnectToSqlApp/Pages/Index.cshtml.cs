@@ -8,16 +8,18 @@ namespace ConnectToSqlApp.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
+        private readonly IProductService _productService;
         public List<Product> Products;
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(IProductService productService,ILogger<IndexModel> logger)
         {
+            _productService = productService;
             _logger = logger;
         }
 
         public void OnGet()
         {
-            ProductService productService = new ProductService();
-            Products = productService.GetProducts();
+            
+            Products = _productService.GetProducts();
         }
     }
 }
